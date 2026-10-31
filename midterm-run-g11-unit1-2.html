@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Midterm Run – Tiếng Anh 11 (Unit 1–2)</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏃</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&family=Literata:opsz,wght@7..72,400;7..72,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F6F2; --card:#FFFFFF; --ink:#16233B; --muted:#56627A; --line:#D7DDE3;
+  --track:#2C5BA6; --lane:#FFFFFF; --lime:#C6F04C; --good:#1F8A55; --good-bg:#E3F5EA;
+  --bad:#C2392F; --bad-bg:#FBE7E4; --gap:#FFF0B8; --gap-now:#FFD84D;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#10151F; --card:#1A2232; --ink:#E9EEF6; --muted:#A1ACC2; --line:#2E394E; --track:#2A4F8E;
+    --good:#4FC98A; --good-bg:#16352A; --bad:#F07A70; --bad-bg:#3A1E1D; --gap:#4A3F12; --gap-now:#7A6516; color-scheme:dark}
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 "Be Vietnam Pro","Segoe UI",Roboto,Arial,sans-serif;
+  padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid #4C8DFF;outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding:18px 16px 56px}
+[hidden]{display:none!important}
+
+/* track (signature element) */
+.track{position:relative;background:var(--track);border-radius:14px;padding:10px 46px 10px 14px;overflow:hidden}
+.lanes{position:relative;height:44px;border-top:2px solid rgba(255,255,255,.55);border-bottom:2px solid rgba(255,255,255,.55)}
+.lanes::before{content:"";position:absolute;left:0;right:0;top:50%;border-top:2px dashed rgba(255,255,255,.35)}
+.runner{position:absolute;top:50%;transform:translate(-50%,-55%) scaleX(-1);font-size:32px;left:0;transition:left .6s cubic-bezier(.3,1.4,.5,1)}
+.flag{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:26px}
+.ticks{position:absolute;inset:0;display:flex;justify-content:space-between;pointer-events:none}
+.tick{width:3px;background:rgba(255,255,255,.25)}
+.tick.ok{background:var(--lime)}
+.tick.no{background:#FF7A6B}
+
+/* home */
+.hero{display:grid;gap:18px;margin-bottom:26px}
+.hero h1{margin:0;font:800 clamp(34px,6.5vw,60px)/1 "Be Vietnam Pro",sans-serif;letter-spacing:-.025em}
+.hero p{margin:0;color:var(--muted);max-width:62ch}
+.kicker{font-weight:700;color:var(--track)}
+@media (prefers-color-scheme:dark){.kicker{color:#8FB4F2}}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:30px}
+.mode{border:0;text-align:left;border-radius:16px;padding:18px;background:var(--ink);color:var(--bg)}
+.mode.alt{background:var(--card);color:var(--ink);border:2px solid var(--line)}
+.mode b{display:block;font-size:20px;font-weight:800}
+.mode span{font-size:14px;opacity:.85}
+.mode:disabled{opacity:.45;cursor:not-allowed}
+h2.sec{font-size:20px;font-weight:800;margin:0 0 10px}
+.secs{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
+.secs li{border-bottom:1px solid var(--line)}
+.srow{width:100%;display:grid;grid-template-columns:54px 1fr auto;gap:12px;align-items:center;background:none;border:0;padding:14px 4px;text-align:left}
+.srow:hover{background:var(--card)}
+.rn{font:800 22px "Be Vietnam Pro",sans-serif;color:var(--track)}
+@media (prefers-color-scheme:dark){.rn{color:#8FB4F2}}
+.st{font-weight:700;font-size:17px}
+.sm{display:block;color:var(--muted);font-size:14px}
+.best{font-size:14px;color:var(--muted);text-align:right;white-space:nowrap}
+.best b{color:var(--good);font-size:16px}
+.foot{margin-top:28px;display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:14px;align-items:center}
+.ghost{background:var(--card);border:2px solid var(--line);border-radius:10px;padding:8px 14px;font-weight:500}
+.ghost:hover{border-color:var(--ink)}
+
+/* play */
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.topbar .grow{flex:1;min-width:200px}
+.stat{font-size:14px;color:var(--muted);white-space:nowrap}
+.stat b{color:var(--ink);font-size:18px}
+.stage{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:16px;margin-top:14px;align-items:start}
+.stage.solo{grid-template-columns:minmax(0,720px);justify-content:center}
+.ctx{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px;position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto}
+.ctx-label{font-size:13px;font-weight:700;color:var(--muted);margin:0 0 8px}
+.passage{font:400 17px/1.75 Literata,Georgia,serif}
+.passage h4{font:800 17px/1.3 "Be Vietnam Pro",sans-serif;margin:0 0 10px}
+.passage p{margin:0 0 12px}
+.gap{background:var(--gap);border-radius:5px;padding:0 4px;font-family:"Be Vietnam Pro",sans-serif;font-size:15px;font-weight:500;white-space:nowrap}
+.gap.now{background:var(--gap-now);outline:2px solid var(--ink)}
+.gap.done{white-space:normal;background:var(--good-bg);color:var(--good)}
+.gap.miss{white-space:normal;background:var(--bad-bg);color:var(--bad)}
+.mk{font-family:"Be Vietnam Pro",sans-serif;font-weight:800;font-size:14px;color:var(--track);background:rgba(44,91,166,.12);border-radius:4px;padding:0 4px}
+.items{list-style:none;margin:0;padding:0;font:400 17px/1.6 Literata,Georgia,serif}
+.items li{display:grid;grid-template-columns:30px 1fr;gap:6px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.items li:last-child{border-bottom:0}
+.items .k{font:800 16px "Be Vietnam Pro",sans-serif;color:var(--track)}
+.letter{font:400 16px Literata,Georgia,serif;margin:4px 0 8px;color:var(--muted)}
+
+.qpanel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px}
+.qnum{font-weight:800;font-size:14px;color:var(--muted);margin:0 0 6px}
+.stem{font-size:19px;font-weight:500;margin:0 0 16px;line-height:1.45}
+.opts{display:grid;gap:9px}
+.opt{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:center;text-align:left;background:var(--bg);border:2px solid transparent;border-radius:12px;padding:11px 12px;font-size:16.5px}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt .L{width:30px;height:30px;border-radius:8px;background:var(--card);border:1.5px solid var(--line);display:grid;place-items:center;font-weight:800}
+.opt:disabled{cursor:default}
+.opt.right{background:var(--good-bg);border-color:var(--good)}
+.opt.right .L{background:var(--good);color:#fff;border-color:var(--good)}
+.opt.wrong{background:var(--bad-bg);border-color:var(--bad)}
+.opt.wrong .L{background:var(--bad);color:#fff;border-color:var(--bad)}
+.opt.dim{opacity:.55}
+.fb{margin-top:16px;padding-top:14px;border-top:2px solid var(--line)}
+.verdict{font-weight:800;font-size:19px;margin:0 0 6px}
+.verdict.ok{color:var(--good)} .verdict.no{color:var(--bad)}
+.ex{margin:0 0 8px}
+.note{margin:0 0 8px;font-size:14px;color:var(--muted)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.primary{background:var(--ink);color:var(--bg);border:0;border-radius:10px;padding:11px 20px;font-weight:700}
+.say{background:none;border:1.5px solid var(--line);border-radius:8px;padding:4px 10px;font-size:14px}
+.kbd{font-size:13px;color:var(--muted)}
+.streak{display:inline-block;background:var(--lime);color:#16233B;border-radius:6px;padding:0 6px;font-weight:700;font-size:14px;margin-left:6px}
+
+/* result */
+.result{max-width:640px;margin:20px auto 0;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px 22px}
+.result h2{margin:0 0 4px;font:800 32px/1.1 "Be Vietnam Pro",sans-serif}
+.result .big{font:800 64px/1 "Be Vietnam Pro",sans-serif;color:var(--good);margin:12px 0 4px}
+.result p{color:var(--muted);margin:6px 0}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.chip{background:var(--bad-bg);color:var(--bad);border-radius:6px;padding:2px 8px;font-weight:700;font-size:14px}
+
+@media (max-width:820px){
+  .stage{grid-template-columns:1fr}
+  .ctx{position:static;max-height:46vh}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HOME -->
+<section id="home">
+  <div class="hero">
+    <div>
+      <p class="kicker">Tiếng Anh 11 Global Success, Unit 1–2</p>
+      <h1>Midterm Run</h1>
+    </div>
+    <p>105 câu ôn tập giữa học kì I, có giải thích chi tiết từng câu. Mỗi câu đúng đưa bạn chạy thêm một đoạn về đích.</p>
+    <div class="track" aria-hidden="true"><div class="lanes"><span class="runner" style="left:18%">🏃</span></div><span class="flag">🏁</span></div>
+  </div>
+  <div class="modes">
+    <button class="mode" id="challengeBtn"><b>Chạy nước rút 20 câu</b><span>20 câu ngẫu nhiên từ cả 8 phần, tính giờ</span></button>
+    <button class="mode alt" id="reviewBtn"><b>Ôn lại câu sai</b><span id="reviewInfo">Chưa có câu sai nào</span></button>
+  </div>
+  <h2 class="sec">Luyện theo từng phần</h2>
+  <ul class="secs" id="secs"></ul>
+  <div class="foot">
+    <button class="ghost" id="voiceBtn" aria-pressed="true">🔊 Giọng đọc: Bật</button>
+    <button class="ghost" id="resetBtn">Xoá kết quả đã lưu</button>
+  </div>
+</section>
+
+<!-- PLAY -->
+<section id="play" hidden>
+  <div class="topbar">
+    <button class="ghost" id="quitBtn">Thoát</button>
+    <div class="grow">
+      <div class="track" aria-hidden="true"><div class="lanes"><div class="ticks" id="ticks"></div><span class="runner" id="runner">🏃</span></div><span class="flag">🏁</span></div>
+    </div>
+    <div class="stat">Câu <b id="pos"></b></div>
+    <div class="stat">Điểm <b id="score">0</b></div>
+    <div class="stat" id="timerWrap">⏱ <b id="timer">0:00</b></div>
+  </div>
+  <div class="stage" id="stage">
+    <aside class="ctx" id="ctx"></aside>
+    <div class="qpanel" id="qpanel"></div>
+  </div>
+</section>
+
+<!-- RESULT -->
+<section id="result" hidden>
+  <div class="result" id="resultBox"></div>
+</section>
+
+</div>
+
+<script>
+const DATA = [{"id":"I","t":"Điền từ: quảng cáo & thông báo","kind":"gap","groups":[{"name":"Text 1","html":"<h4>FITLIFE SPORTS CENTRE – NOW OPEN!<\/h4><p>Want to <span class=\"gap\" data-n=\"1\" data-a=\"improve\">(1) ________<\/span> your health and fitness? Join FitLife today! Our trainers will help you build a habit of <span class=\"gap\" data-n=\"2\" data-a=\"regular physical exercise\">(2) ________<\/span> that suits your lifestyle. Studies show that people who exercise often suffer less <span class=\"gap\" data-n=\"3\" data-a=\"from\">(3) ________<\/span> stress and sleep problems. Our centre also offers free classes on <span class=\"gap\" data-n=\"4\" data-a=\"nutrition\">(4) ________<\/span>, so you can learn how to plan balanced meals. The swimming pool, <span class=\"gap\" data-n=\"5\" data-a=\"which\">(5) ________<\/span> is open from 6 a.m. to 10 p.m., is ideal for busy students. Stay <span class=\"gap\" data-n=\"6\" data-a=\"active\">(6) ________<\/span> and feel great!<\/p>","qs":[{"n":1,"stem":"","opts":["acquire","improve","require","contribute"],"a":1,"ex":"\"improve your health and fitness\": cải thiện sức khỏe và thể lực. acquire (đạt được), require (yêu cầu), contribute (đóng góp) không hợp nghĩa.","note":""},{"n":2,"stem":"","opts":["physical regular exercise","regular physical exercise","exercise regular physical","regular exercise physical"],"a":1,"ex":"Trật tự tính từ trước danh từ: tần suất (regular) + loại (physical) + danh từ (exercise) → regular physical exercise.","note":""},{"n":3,"stem":"","opts":["of","with","from","on"],"a":2,"ex":"Cụm \"suffer from sth\": chịu đựng, mắc phải (stress, bệnh…).","note":""},{"n":4,"stem":"","opts":["bacteria","infection","treatment","nutrition"],"a":3,"ex":"Vế sau \"learn how to plan balanced meals\" → lớp học về dinh dưỡng: nutrition.","note":""},{"n":5,"stem":"","opts":["that","which","where","who"],"a":1,"ex":"Mệnh đề quan hệ không xác định (có dấu phẩy) thay cho vật \"the swimming pool\" làm chủ ngữ → which. Không dùng \"that\" sau dấu phẩy.","note":""},{"n":6,"stem":"","opts":["act","action","activate","active"],"a":3,"ex":"stay + tính từ → stay active (luôn năng động).","note":""}]},{"name":"Text 2","html":"<h4>FREE FLU VACCINATION DAY<\/h4><p>Green Valley Health Centre is pleased to announce a free flu vaccination day for all local students. Flu is a <span class=\"gap\" data-n=\"7\" data-a=\"contagious\">(7) ________<\/span> disease that spreads quickly in crowded places such as schools. Vaccines help prevent <span class=\"gap\" data-n=\"8\" data-a=\"infection\">(8) ________<\/span> before it makes you sick. The event will take place in the school hall, <span class=\"gap\" data-n=\"9\" data-a=\"where\">(9) ________<\/span> nurses will also give advice on personal hygiene. Students who are interested <span class=\"gap\" data-n=\"10\" data-a=\"in\">(10) ________<\/span> helping at the event can sign up at the school office. Regular hand-washing can also <span class=\"gap\" data-n=\"11\" data-a=\"contribute\">(11) ________<\/span> to preventing the spread of disease. This event is part of our <span class=\"gap\" data-n=\"12\" data-a=\"annual community health programme\">(12) ________<\/span> for young people. Don't miss this chance to protect yourself!<\/p>","qs":[{"n":7,"stem":"","opts":["chronic","contagious","nutritious","regular"],"a":1,"ex":"\"spreads quickly in crowded places\" → bệnh truyền nhiễm: contagious disease. chronic = mãn tính.","note":""},{"n":8,"stem":"","opts":["infect","infectious","infection","infected"],"a":2,"ex":"Sau động từ \"prevent\" cần danh từ → infection (sự nhiễm trùng); \"it\" ở vế sau thay cho danh từ này.","note":""},{"n":9,"stem":"","opts":["which","when","who","where"],"a":3,"ex":"Thay cho nơi chốn \"the school hall\" và sau đó là mệnh đề đầy đủ (nurses will also give advice) → where.","note":""},{"n":10,"stem":"","opts":["on","at","in","with"],"a":2,"ex":"Cụm \"be interested in + V-ing\".","note":""},{"n":11,"stem":"","opts":["require","acquire","increase","contribute"],"a":3,"ex":"Cụm \"contribute to + V-ing/N\": góp phần vào.","note":""},{"n":12,"stem":"","opts":["annual community health programme","community annual health programme","health annual community programme","programme annual community health"],"a":0,"ex":"Trật tự cụm danh từ: tính từ chỉ thời gian (annual) đứng trước danh từ ghép \"community health programme\" (chương trình sức khỏe cộng đồng).","note":""}]},{"name":"Text 3","html":"<h4>HEALTHY LIVING WEEK AT SUNRISE HIGH SCHOOL<\/h4><p>From 4th to 8th November, our school will hold Healthy Living Week. The main aim is to raise awareness of how <span class=\"gap\" data-n=\"13\" data-a=\"unhealthy\">(13) ________<\/span> habits can lead to serious health problems. Did you know that eating too often at <span class=\"gap\" data-n=\"14\" data-a=\"fast food chains\">(14) ________<\/span> may increase the risk of obesity? During the week, students will <span class=\"gap\" data-n=\"15\" data-a=\"acquire\">(15) ________<\/span> useful skills such as reading food labels and cooking simple meals. Experts will also talk about <span class=\"gap\" data-n=\"16\" data-a=\"chronic\">(16) ________<\/span> diseases such as diabetes and heart disease, which last for a long time. On Friday, there will be a fun run, <span class=\"gap\" data-n=\"17\" data-a=\"in which\">(17) ________<\/span> all students and teachers can take part. Remember: a healthy diet is good <span class=\"gap\" data-n=\"18\" data-a=\"for\">(18) ________<\/span> both your body and your mind!<\/p>","qs":[{"n":13,"stem":"","opts":["health","healthy","unhealthy","healthily"],"a":2,"ex":"Trước danh từ \"habits\" cần tính từ; \"lead to serious health problems\" → thói quen không lành mạnh: unhealthy.","note":""},{"n":14,"stem":"","opts":["food fast chains","fast food chains","chains fast food","fast chains food"],"a":1,"ex":"Danh từ ghép \"fast food\" bổ nghĩa cho \"chains\" → fast food chains (chuỗi cửa hàng thức ăn nhanh).","note":""},{"n":15,"stem":"","opts":["require","acquire","contribute","increase"],"a":1,"ex":"\"acquire useful skills\": tiếp thu, học được kỹ năng hữu ích.","note":""},{"n":16,"stem":"","opts":["contagious","infectious","chronic","viral"],"a":2,"ex":"\"which last for a long time\" (kéo dài) → bệnh mãn tính: chronic diseases (tiểu đường, tim mạch).","note":""},{"n":17,"stem":"","opts":["which","where","in which","that"],"a":2,"ex":"Sau dấu phẩy, thay cho \"a fun run\" và sau là mệnh đề đầy đủ \"all students and teachers can take part (in it)\" → in which (= take part in the fun run). \"where\" thường dùng cho nơi chốn; \"which\" thiếu giới từ \"in\".","note":"Lưu ý: \"take part in which\" → \"in which\" là đáp án chuẩn nhất; một số người chấp nhận \"where\" theo nghĩa rộng, nhưng đề chọn C."},{"n":18,"stem":"","opts":["to","at","with","for"],"a":3,"ex":"Cụm \"be good for sth/sb\": tốt cho.","note":""}]}]},{"id":"II","t":"Điền từ: tờ rơi","kind":"gap","groups":[{"name":"Text 4","html":"<h4>HOW TO GET ON WELL WITH YOUR PARENTS<\/h4><p>Living with parents can sometimes be difficult. Here are <span class=\"gap\" data-n=\"19\" data-a=\"a few\">(19) ________<\/span> tips to help you:<\/p><p>• Talk openly. Avoid <span class=\"gap\" data-n=\"20\" data-a=\"shouting\">(20) ________<\/span> at each other when you disagree.<\/p><p>• Respect their views. Don't <span class=\"gap\" data-n=\"21\" data-a=\"look down on\">(21) ________<\/span> their old-fashioned ideas; they come from years of experience.<\/p><p>• Understand their rules. Parents who seem <span class=\"gap\" data-n=\"22\" data-a=\"strict\">(22) ________<\/span> usually just want to keep you safe.<\/p><p>• Spend time together. Shared activities help <span class=\"gap\" data-n=\"23\" data-a=\"foster\">(23) ________<\/span> mutual understanding.<\/p><p>• If you <span class=\"gap\" data-n=\"24\" data-a=\"have\">(24) ________<\/span> a serious problem, talk to a teacher or a school counsellor.<\/p>","qs":[{"n":19,"stem":"","opts":["much","a little","a great deal of","a few"],"a":3,"ex":"\"tips\" là danh từ đếm được số nhiều → a few. much, a little, a great deal of dùng với danh từ không đếm được.","note":""},{"n":20,"stem":"","opts":["shout","to shout","shouting","shouted"],"a":2,"ex":"avoid + V-ing → avoid shouting.","note":""},{"n":21,"stem":"","opts":["look up to","get along with","look down on","bring up"],"a":2,"ex":"\"Respect their views. Don't …………………… their old-fashioned ideas\" → đừng coi thường: look down on.","note":""},{"n":22,"stem":"","opts":["lazy","strict","generous","careless"],"a":1,"ex":"\"Understand their rules… want to keep you safe\" → cha mẹ có vẻ nghiêm khắc: strict.","note":""},{"n":23,"stem":"","opts":["widen","foster","break","conform"],"a":1,"ex":"\"foster mutual understanding\": thúc đẩy sự thấu hiểu lẫn nhau (cụm từ Unit 2).","note":""},{"n":24,"stem":"","opts":["have","had","will have","would have"],"a":0,"ex":"Câu điều kiện loại 1 (mệnh đề chính là câu mệnh lệnh \"talk to…\") → If + S + V(hiện tại đơn): If you have…","note":""}]},{"name":"Text 5","html":"<h4>FAMILY TALK WORKSHOP – Saturday, 9 a.m., Room A12<\/h4><p>Do you often <span class=\"gap\" data-n=\"25\" data-a=\"fall out with\">(25) ________<\/span> your parents over small things? Join our free workshop!<\/p><p>• Parents and teenagers will learn how to deal with <span class=\"gap\" data-n=\"26\" data-a=\"conflicts\">(26) ________<\/span> calmly.<\/p><p>• <span class=\"gap\" data-n=\"27\" data-a=\"A large number of\">(27) ________<\/span> families will share their real-life stories.<\/p><p>• Experts will explain how unrealistic demands can <span class=\"gap\" data-n=\"28\" data-a=\"widen\">(28) ________<\/span> the generation gap.<\/p><p>• If more families <span class=\"gap\" data-n=\"29\" data-a=\"attended\">(29) ________<\/span> this workshop, they would understand each other better.<\/p><p>• Remember <span class=\"gap\" data-n=\"30\" data-a=\"to register\">(30) ________<\/span> at the school office by Thursday.<\/p>","qs":[{"n":25,"stem":"","opts":["look up to","bring up","care for","fall out with"],"a":3,"ex":"\"over small things\" + mục đích workshop → cãi nhau với bố mẹ: fall out with sb (over sth).","note":""},{"n":26,"stem":"","opts":["attitudes","outlooks","conflicts","norms"],"a":2,"ex":"\"deal with conflicts calmly\": giải quyết mâu thuẫn một cách bình tĩnh.","note":""},{"n":27,"stem":"","opts":["Much","A great deal of","Every","A large number of"],"a":3,"ex":"\"families\" (danh từ đếm được số nhiều) + động từ \"will share\" → A large number of. \"Every\" đi với danh từ số ít; Much/A great deal of dùng với danh từ không đếm được.","note":""},{"n":28,"stem":"","opts":["foster","widen","meet","conform"],"a":1,"ex":"\"unrealistic demands can widen the generation gap\": yêu cầu phi thực tế làm khoảng cách thế hệ rộng thêm.","note":""},{"n":29,"stem":"","opts":["attend","attended","will attend","had attended"],"a":1,"ex":"Câu điều kiện loại 2 (mệnh đề chính \"would understand\") → If + S + V2/ed: attended.","note":""},{"n":30,"stem":"","opts":["register","registering","to register","registered"],"a":2,"ex":"remember + to V: nhớ phải làm việc gì (chưa làm) → Remember to register.","note":""}]},{"name":"Text 6","html":"<h4>LIVING IN A MULTIGENERATIONAL FAMILY: A GUIDE FOR TEENS<\/h4><p>Many Vietnamese teens live with their parents and grandparents. This brings <span class=\"gap\" data-n=\"31\" data-a=\"a wide range of\">(31) ________<\/span> benefits, but it can also be challenging.<\/p><p>• Grandparents may have a different <span class=\"gap\" data-n=\"32\" data-a=\"outlook\">(32) ________<\/span> on life, so be patient when they share their opinions.<\/p><p>• Children who are <span class=\"gap\" data-n=\"33\" data-a=\"brought up\">(33) ________<\/span> by their grandparents often learn traditional values.<\/p><p>• Young people are expected to <span class=\"gap\" data-n=\"34\" data-a=\"conform to\">(34) ________<\/span> social norms such as greeting elders politely.<\/p><p>• Don't forget <span class=\"gap\" data-n=\"35\" data-a=\"to spend\">(35) ________<\/span> time with your grandparents; they enjoy your company.<\/p><p>• If you spent more time chatting with them, you <span class=\"gap\" data-n=\"36\" data-a=\"would learn\">(36) ________<\/span> many interesting family stories.<\/p>","qs":[{"n":31,"stem":"","opts":["much","a little","a wide range of","a great deal of"],"a":2,"ex":"\"benefits\" là danh từ đếm được số nhiều → a wide range of (nhiều loại).","note":""},{"n":32,"stem":"","opts":["conflict","outlook","divide","demand"],"a":1,"ex":"Cụm \"outlook on life\": quan điểm, cách nhìn về cuộc sống.","note":""},{"n":33,"stem":"","opts":["looked down on","fallen out with","brought up","put up with"],"a":2,"ex":"\"Children who are brought up by their grandparents\": được ông bà nuôi dạy (bring up – brought up, bị động).","note":""},{"n":34,"stem":"","opts":["meet","widen","foster","conform to"],"a":3,"ex":"\"conform to social norms\": tuân theo chuẩn mực xã hội.","note":""},{"n":35,"stem":"","opts":["spend","spending","to spend","spent"],"a":2,"ex":"forget + to V: quên phải làm việc gì → Don't forget to spend…","note":""},{"n":36,"stem":"","opts":["learn","will learn","would learn","would have learnt"],"a":2,"ex":"Câu điều kiện loại 2 (If you spent…) → S + would + V: would learn.","note":""}]}]},{"id":"III","t":"Sắp xếp hội thoại","kind":"order","groups":[{"name":null,"html":"","qs":[{"n":37,"stem":"","opts":["c – a – b","a – c – b","b – a – c","c – b – a"],"a":0,"ex":"c (xin phép mở cửa sổ) → a (đồng ý: Sure, go ahead) → b (cảm ơn).","note":"","items":[["a","Sure, go ahead. It's quite hot in here."],["b","Thank you so much."],["c","Excuse me, do you mind if I open the window?"]],"head":"","foot":""},{"n":38,"stem":"","opts":["c – b – a","b – c – a","a – c – b","b – a – c"],"a":1,"ex":"b (xin về sớm) → c (từ chối, bảo hỏi cô Lan) → a (OK, đi gặp cô ấy).","note":"","items":[["a","OK, I'll go and talk to her now."],["b","Can I leave class early today? I have a dental appointment."],["c","I'm afraid not. You need to ask Ms Lan, our form teacher, first."]],"head":"","foot":""},{"n":39,"stem":"","opts":["a – b – c","c – a – b","b – a – c","b – c – a"],"a":2,"ex":"b (hỏi mượn vở) → a (đồng ý, đưa vở) → c (cảm ơn, hứa trả).","note":"","items":[["a","Of course. Here you are."],["b","Could I borrow your notebook? I missed the lesson yesterday."],["c","Thanks! I'll give it back to you tomorrow."]],"head":"","foot":""},{"n":40,"stem":"","opts":["c – b – e – a – d","c – e – b – a – d","e – c – b – d – a","c – e – a – b – d"],"a":1,"ex":"c (nhờ chỉ cách làm sinh tố) → e (Sure, dễ lắm) → b (First, rửa và cắt trái cây) → a (Tiếp theo làm gì?) → d (cho vào máy xay).","note":"","items":[["a","Great. What do I do next?"],["b","First, wash and cut a banana and some strawberries."],["c","Can you show me how to make a fruit smoothie?"],["d","Put them into a blender with some yoghurt and blend for one minute."],["e","Sure. It's really easy."]],"head":"","foot":""},{"n":41,"stem":"","opts":["b – a – e – c – d","e – b – a – d – c","b – e – c – a – d","b – e – a – c – d"],"a":3,"ex":"b (hỏi cách tập) → e (First…) → a (Then…) → c (Như thế này à? Giữ lại không?) → d (Đúng, giữ 10 giây).","note":"","items":[["a","Then bend forward slowly and try to touch your toes."],["b","How do I do this stretching exercise, Coach?"],["c","Like this? Should I hold it?"],["d","Yes, hold it for ten seconds, then stand up slowly."],["e","First, stand straight with your feet apart."]],"head":"","foot":""},{"n":42,"stem":"","opts":["b – d – a – e – c","b – e – d – a – c","b – d – e – a – c","d – b – e – a – c"],"a":2,"ex":"b (hỏi cách rửa tay) → d (First…) → e (OK. And then?) → a (Next…) → c (Finally…).","note":"","items":[["a","Next, rub your hands together for at least 20 seconds."],["b","Mum, what's the right way to wash my hands?"],["c","Finally, rinse them and dry them with a clean towel."],["d","First, wet your hands and put some soap on them."],["e","OK. And then?"]],"head":"","foot":""}]}]},{"id":"IV","t":"Sắp xếp thư / email","kind":"order","groups":[{"name":null,"html":"","qs":[{"n":43,"stem":"","opts":["c – e – a – d – b","e – a – c – d – b","c – a – e – d – b","e – c – a – d – b"],"a":3,"ex":"e (cảm ơn thư trước – mở đầu) → c (lý do viết thư) → a (chi tiết lối sống mới) → d (As a result – kết quả) → b (rủ bạn tham gia – kết thư).","note":"","items":[["a","I've started jogging every morning and stopped eating fast food."],["b","Why don't you join me in the park this Sunday?"],["c","I'm writing to tell you about my new healthy lifestyle."],["d","As a result, I've lost three kilos and I feel much more energetic."],["e","Thanks for your last email and sorry for my late reply."]],"head":"<i>Dear Nam,<\/i>","foot":"<i>Best wishes, Minh<\/i>"},{"n":44,"stem":"","opts":["c – a – b – d – e","b – c – a – d – e","c – b – a – d – e","c – b – d – a – e"],"a":2,"ex":"c (hỏi thăm – mở đầu) → b (bị cảm tuần trước) → a (bác sĩ dặn) → d (nhờ lời khuyên của ông ấy \"his\" → đã khỏe hơn) → e (hẹn thăm bà).","note":"","items":[["a","The doctor told me to rest and drink plenty of water."],["b","Last week, I caught a bad cold and had to stay home from school for three days."],["c","I hope you are well and still doing your morning exercises."],["d","Thanks to his advice, I'm feeling much better now."],["e","I'll visit you next weekend when I'm completely well."]],"head":"<i>Dear Grandma,<\/i>","foot":"<i>Love, Ha<\/i>"},{"n":45,"stem":"","opts":["b – a – d – c – e","b – d – a – c – e","d – b – a – e – c","b – d – c – a – e"],"a":1,"ex":"b (mục đích thư: bị đau mắt cá) → d (bác sĩ khuyên không vận động) → a (Therefore – xin nghỉ tiết thể dục) → c (sẽ nộp giấy bác sĩ) → e (cảm ơn).","note":"","items":[["a","Therefore, I would like to ask for permission to miss the PE lesson this Friday."],["b","I am writing to inform you that I injured my ankle while playing football last weekend."],["c","I will bring the doctor's note to school on Monday."],["d","My doctor has advised me not to do any physical activity for two weeks."],["e","Thank you for your understanding."]],"head":"<i>Dear Ms Hoa,<\/i>","foot":"<i>Yours sincerely, Lan<\/i>"}]}]},{"id":"V","t":"Sắp xếp đoạn văn","kind":"order","groups":[{"name":null,"html":"","qs":[{"n":46,"stem":"","opts":["b – d – a – c – e","a – b – d – e – c","b – a – d – c – e","b – a – c – d – e"],"a":2,"ex":"b (câu chủ đề) → a (Firstly) → d (Secondly) → c (Finally) → e (As a result – kết luận).","note":"","items":[["a","Firstly, they grew up in different historical and social conditions."],["b","There are several reasons why parents and children often disagree."],["c","Finally, many parents are too busy with work to listen to their children."],["d","Secondly, young people today are strongly influenced by technology and social media."],["e","As a result, the generation gap may become wider if families do not talk to each other."]],"head":"","foot":""},{"n":47,"stem":"","opts":["b – c – e – a – d","b – e – c – a – d","e – b – c – d – a","b – e – a – c – d"],"a":1,"ex":"b (giới thiệu gia đình 3 thế hệ) → e (bố mẹ có quan điểm hiện đại) → c (For example – mẹ làm bác sĩ) → a (However – ông bà nghĩ khác) → d (Because of this – cãi nhau).","note":"","items":[["a","However, my grandparents believe that women should stay at home and do housework."],["b","In my family, three generations live under one roof."],["c","For example, my mother works full-time as a doctor."],["d","Because of this, there are sometimes small arguments at dinner."],["e","My parents have quite modern views about women's roles."]],"head":"","foot":""},{"n":48,"stem":"","opts":["b – a – c – e – d","c – b – a – e – d","b – c – e – a – d","b – c – a – e – d"],"a":3,"ex":"b (câu chủ đề) → c (To begin with) → a (In addition – học kỹ năng sống) → e (For instance – ví dụ cho ý a) → d (In short – kết luận).","note":"","items":[["a","In addition, they can learn traditional values and life skills from their grandparents."],["b","Living in an extended family has many advantages for children."],["c","To begin with, children always have someone to look after them when their parents are at work."],["d","In short, an extended family can be a great place for children to grow up."],["e","For instance, my grandfather taught me how to grow vegetables."]],"head":"","foot":""},{"n":49,"stem":"","opts":["b – a – c – e – d","a – b – c – e – d","b – c – a – e – d","b – a – e – c – d"],"a":0,"ex":"b (câu chủ đề) → a (muốn nhuộm tóc) → c (bố từ chối) → e (buồn, giải thích) → d (In the end – thỏa thuận).","note":"","items":[["a","Last month, I wanted to dye my hair blue for a school festival."],["b","My dad and I rarely agree on fashion."],["c","He said it looked unprofessional and refused to let me do it."],["d","In the end, we agreed that I could wear a blue wig instead."],["e","I felt upset, so I tried to explain that it was only for one day."]],"head":"","foot":""},{"n":50,"stem":"","opts":["a – c – d – e – b","a – d – c – e – b","d – a – c – b – e","a – d – e – c – b"],"a":1,"ex":"a (lớn lên không có điện thoại) → d (từng viết thư tay) → c (năm ngoái tôi dạy ông) → e (lúc đầu chậm) → b (Now – giờ gọi video mỗi tối).","note":"","items":[["a","My grandfather grew up without a phone, a TV or the Internet."],["b","Now he uses a smartphone to video call his grandchildren every evening."],["c","Last year, I taught him how to use social media."],["d","He used to send handwritten letters to his relatives."],["e","He was slow at first, but he learned quickly."]],"head":"","foot":""},{"n":51,"stem":"","opts":["b – a – d – e – c","d – b – a – c – e","b – d – e – a – c","b – d – a – e – c"],"a":3,"ex":"b (đặt giờ giới nghiêm) → d (thấy bất công) → a (gây nhiều tranh cãi) → e (năm ngoái đổi giờ) → c (Now – giờ đã hiểu).","note":"","items":[["a","The rule caused many arguments between us."],["b","When I was fourteen, my parents set a strict curfew of 8 p.m."],["c","Now I understand that the rule was only meant to keep me safe."],["d","I thought it was unfair because my friends could stay out later."],["e","Last year, they finally changed the curfew to 10 p.m."]],"head":"","foot":""}]}]},{"id":"VI","t":"Điền câu, cụm từ vào đoạn văn","kind":"gap","groups":[{"name":"Passage 1","html":"<p>Each generation has its own characteristics. Baby boomers, <span class=\"gap\" data-n=\"52\" data-a=\"born between 1946 and 1964\">(52) ________<\/span>, value hard work and job security. Generation X grew up during a time of great change. Millennials, who saw the move from old media like newspapers and TV to digital media like social networks, <span class=\"gap\" data-n=\"53\" data-a=\"are very comfortable with both old and new technology\">(53) ________<\/span>. Gen Z, on the other hand, are true digital natives. They prefer learning through videos, <span class=\"gap\" data-n=\"54\" data-a=\"playing educational games, and chatting online\">(54) ________<\/span>. <span class=\"gap\" data-n=\"55\" data-a=\"Although they have different values and lifestyles\">(55) ________<\/span>, these generations can still learn a lot from each other. <span class=\"gap\" data-n=\"56\" data-a=\"Respect and open communication are the keys to a harmonious family.\">(56) ________<\/span><\/p>","qs":[{"n":52,"stem":"","opts":["were born between 1946 and 1964","born between 1946 and 1964","who born between 1946 and 1964","bearing between 1946 and 1964"],"a":1,"ex":"Rút gọn mệnh đề quan hệ bị động: \"who were born…\" → \"born between 1946 and 1964\". A thiếu \"who\" (2 động từ chính), C thiếu \"were\".","note":""},{"n":53,"stem":"","opts":["is very good at using technology","are very comfortable with both old and new technology","being comfortable with both old and new technology","to be comfortable with both old and new technology"],"a":1,"ex":"Chủ ngữ \"Millennials\" (số nhiều) còn thiếu động từ chính → are very comfortable with… Hợp nghĩa với \"saw the move from old media to digital media\".","note":""},{"n":54,"stem":"","opts":["play educational games, and chat online","to play educational games and chatting online","playing educational games, and chatting online","played educational games and chatted online"],"a":2,"ex":"Cấu trúc song song sau \"prefer learning through videos\" → V-ing: playing…, and chatting…","note":""},{"n":55,"stem":"","opts":["Although they have different values and lifestyles","Because they have similar values and lifestyles","If they do not talk to each other","Since they have the same lifestyle"],"a":0,"ex":"Mệnh đề nhượng bộ: mặc dù khác biệt về giá trị và lối sống, các thế hệ vẫn có thể học hỏi lẫn nhau → Although.","note":""},{"n":56,"stem":"","opts":["Gen Z was born after Millennials.","Newspapers are becoming less popular nowadays.","Baby boomers often retire at the age of 60.","Respect and open communication are the keys to a harmonious family."],"a":3,"ex":"Câu kết đoạn cần khái quát ý \"các thế hệ học hỏi lẫn nhau\" → tôn trọng và giao tiếp cởi mở là chìa khóa. Các câu khác là chi tiết lạc đề.","note":""}]},{"name":"Passage 2","html":"<p>Japan has one of the highest average life expectancies in the world. Many experts believe that diet plays an important role. Japanese people often eat traditional meals <span class=\"gap\" data-n=\"57\" data-a=\"consisting of\">(57) ________<\/span> fish, vegetables and rice. <span class=\"gap\" data-n=\"58\" data-a=\"Besides diet, an active lifestyle also plays an important role.\">(58) ________<\/span> For example, many elderly people walk or cycle every day and take part in community activities. The number of Japanese people over 100 years old <span class=\"gap\" data-n=\"59\" data-a=\"has increased steadily over the past decades\">(59) ________<\/span>. <span class=\"gap\" data-n=\"60\" data-a=\"Because they eat little red meat and fried food\">(60) ________<\/span>, they are less likely to suffer from heart disease. Health experts say that eating well, staying active and <span class=\"gap\" data-n=\"61\" data-a=\"keeping a positive attitude\">(61) ________<\/span> are the secrets of a long life.<\/p>","qs":[{"n":57,"stem":"","opts":["consist of","consisting of","consisted of","are consisting of"],"a":1,"ex":"Rút gọn mệnh đề quan hệ chủ động: \"meals which consist of…\" → \"meals consisting of…\". consist of không dùng ở thì tiếp diễn.","note":""},{"n":58,"stem":"","opts":["Sushi is popular all over the world.","Besides diet, an active lifestyle also plays an important role.","Japanese food is expensive in other countries.","Many young people prefer fast food."],"a":1,"ex":"Câu sau \"For example, many elderly people walk or cycle every day…\" là ví dụ cho lối sống năng động → B.","note":""},{"n":59,"stem":"","opts":["has increased steadily over the past decades","have increased steadily over the past decades","increasing steadily over the past decades","to increase steadily over the past decades"],"a":0,"ex":"\"The number of + N số nhiều\" → động từ số ít: has increased. (\"A number of\" mới đi với động từ số nhiều.) Thì hiện tại hoàn thành với \"over the past decades\".","note":""},{"n":60,"stem":"","opts":["Although they eat little red meat and fried food","Because they eat little red meat and fried food","Unless they eat little red meat and fried food","Even though they rarely exercise"],"a":1,"ex":"Quan hệ nguyên nhân – kết quả: vì ít ăn thịt đỏ, đồ chiên → ít bị bệnh tim → Because.","note":""},{"n":61,"stem":"","opts":["keep a positive attitude","to keep a positive attitude","kept a positive attitude","keeping a positive attitude"],"a":3,"ex":"Song song với \"eating well, staying active and…\" → V-ing: keeping a positive attitude.","note":""}]},{"name":"Passage 3","html":"<p>In many families today, smartphones have become a major cause of conflict. A recent survey <span class=\"gap\" data-n=\"62\" data-a=\"conducted\">(62) ________<\/span> by a youth organisation shows that most parents worry about their children's screen time. <span class=\"gap\" data-n=\"63\" data-a=\"They believe that too much screen time can harm sleep and study.\">(63) ________<\/span> Many teenagers, however, see their phones as an essential part of their social life. <span class=\"gap\" data-n=\"64\" data-a=\"If they cannot use their phones\">(64) ________<\/span>, they may feel left out of conversations with friends. Experts suggest that families should agree on clear rules, such as having no phones at meals, turning off devices an hour before bed, and <span class=\"gap\" data-n=\"65\" data-a=\"charging phones outside bedrooms\">(65) ________<\/span>. Each member of the family, including parents, <span class=\"gap\" data-n=\"66\" data-a=\"needs to follow these rules\">(66) ________<\/span>.<\/p>","qs":[{"n":62,"stem":"","opts":["conducting","conducted","was conducted","conducts"],"a":1,"ex":"Rút gọn mệnh đề quan hệ bị động: \"a survey which was conducted by…\" → \"a survey conducted by…\" (động từ chính của câu là \"shows\").","note":""},{"n":63,"stem":"","opts":["They believe that too much screen time can harm sleep and study.","Smartphones were invented many years ago.","Teenagers usually go to school by bike.","Some phones are very expensive."],"a":0,"ex":"Câu tiếp nối ý \"parents worry about screen time\" → giải thích lý do họ lo lắng: ảnh hưởng giấc ngủ và việc học.","note":""},{"n":64,"stem":"","opts":["Although they use their phones","Because they have their phones","If they cannot use their phones","Unless they cannot use their phones"],"a":2,"ex":"Câu điều kiện: nếu không được dùng điện thoại, các bạn có thể cảm thấy bị bỏ rơi trong cuộc trò chuyện → If they cannot use their phones.","note":""},{"n":65,"stem":"","opts":["charge phones outside bedrooms","charging phones outside bedrooms","to charge phones outside bedrooms","charged phones outside bedrooms"],"a":1,"ex":"Song song với \"having…, turning off… and…\" → V-ing: charging phones outside bedrooms.","note":""},{"n":66,"stem":"","opts":["needs to follow these rules","need to follow these rules","needing to follow these rules","are needed to follow these rules"],"a":0,"ex":"Chủ ngữ \"Each member\" (số ít; cụm \"including parents\" không làm thay đổi chủ ngữ) → động từ số ít: needs.","note":""}]}]},{"id":"VII","t":"Đọc hiểu: chi tiết, từ vựng, quy chiếu","kind":"read","groups":[{"name":"Passage 1","html":"<p>(1) Sleep is just as important for health as diet and exercise, yet many teenagers do not get enough of it. Experts recommend that young people aged 13 to 18 sleep between eight and ten hours a night. However, surveys show that most high school students sleep fewer than seven hours on school nights.<\/p><p>(2) There are several reasons for this. Heavy homework loads and extra classes keep many students busy until late at night. In addition, the blue light from phones and laptops makes the brain think it is still daytime, so it becomes harder to fall asleep. Teenagers' body clocks also change during puberty, which means they naturally feel sleepy later in the evening.<\/p><p>(3) A lack of sleep can have serious <b>consequences<\/b>. Students who are tired find it difficult to concentrate in class, and their memory becomes <b>weaker<\/b>. They are also more likely to feel stressed, anxious or irritable. Over time, poor sleep may weaken the immune system, making it easier to catch colds and other infections. Some studies have even linked <b>it<\/b> to weight gain, because tired people tend to crave sugary snacks.<\/p><p>(4) Fortunately, there are simple ways to sleep better. Going to bed and waking up at the same time every day helps the body build a regular routine. Students should switch off their devices at least an hour before bedtime and keep their bedrooms dark and quiet. Avoiding caffeine in the afternoon is also a good idea. These small changes can make a big difference to both health and school performance.<\/p>","qs":[{"n":67,"stem":"According to paragraph 1, how many hours of sleep do experts recommend for teenagers?","opts":["fewer than seven","between seven and eight","between eight and ten","more than ten"],"a":2,"ex":"Đoạn 1: Experts recommend that young people aged 13 to 18 sleep between eight and ten hours a night.","note":""},{"n":68,"stem":"The word <b>consequences<\/b> in paragraph 3 is CLOSEST in meaning to …………………….","opts":["results","causes","advantages","solutions"],"a":0,"ex":"consequences = hậu quả, kết quả → results.","note":""},{"n":69,"stem":"The word <b>weaker<\/b> in paragraph 3 is OPPOSITE in meaning to …………………….","opts":["poorer","slower","shorter","stronger"],"a":3,"ex":"weaker (yếu hơn) ≠ stronger (mạnh hơn).","note":""},{"n":70,"stem":"The word <b>it<\/b> in paragraph 3 refers to …………………….","opts":["the immune system","weight gain","poor sleep","a cold"],"a":2,"ex":"\"Some studies have even linked it to weight gain, because tired people…\" → it = poor sleep (thiếu ngủ) ở câu trước.","note":""},{"n":71,"stem":"In which paragraph does the writer mention the effect of electronic devices on falling asleep?","opts":["Paragraph 1","Paragraph 2","Paragraph 3","Paragraph 4"],"a":1,"ex":"Đoạn 2: the blue light from phones and laptops… it becomes harder to fall asleep.","note":""},{"n":72,"stem":"In which paragraph does the writer give advice on how to sleep better?","opts":["Paragraph 1","Paragraph 2","Paragraph 3","Paragraph 4"],"a":3,"ex":"Đoạn 4 mở đầu: there are simple ways to sleep better… và đưa ra các lời khuyên.","note":""},{"n":73,"stem":"Which of the following best paraphrases the sentence \"Teenagers' body clocks also change during puberty, which means they naturally feel sleepy later in the evening.\"?","opts":["Changes in teenagers' body clocks make them feel sleepy later at night.","Teenagers should go to bed early because their body clocks change.","Teenagers feel sleepy all day because of puberty.","Teenagers' body clocks stop working during puberty."],"a":0,"ex":"Đồng hồ sinh học thay đổi → buồn ngủ muộn hơn vào buổi tối → A. B thêm lời khuyên, C và D sai nghĩa.","note":""},{"n":74,"stem":"In paragraph 3, the writer mainly …………………….","opts":["explains why teenagers go to bed late","describes the effects of not getting enough sleep","gives tips for better sleep","compares sleep with diet and exercise"],"a":1,"ex":"Đoạn 3 nói về hậu quả của thiếu ngủ (khó tập trung, căng thẳng, giảm miễn dịch, tăng cân) → B.","note":""}]},{"name":"Passage 2","html":"<p>(1) In Viet Nam, it is still common for three generations to live under the same roof. Grandparents, parents and children share meals, housework and daily routines. While this tradition brings many benefits, it can also lead to conflicts because each generation has different values and habits.<\/p><p>(2) One of the most common sources of disagreement is technology. Grandparents, who grew up without smartphones, often think young people waste too much time online. Teenagers, on the other hand, use the Internet for studying, entertainment and keeping in touch with friends. <b>They<\/b> may feel that older family members simply do not understand the modern world.<\/p><p>(3) Another issue is career choice. Many parents hope their children will become doctors, lawyers or engineers because these jobs are stable and well-paid. However, a growing number of young people want to follow their <b>passions<\/b> and work in new fields such as graphic design, content creation or game development. When children's dreams do not meet parental expectations, arguments are likely to happen.<\/p><p>(4) Despite these differences, living in an extended family also has clear advantages. Children can learn traditional values such as respect for elders and the importance of family. Grandparents, in turn, feel less lonely and can stay active by helping to raise their grandchildren. To reduce conflicts, family members should listen to each other with an open mind and try to see things from the other person's point of view. Spending quality time together, such as cooking a family meal or going on a weekend trip, is also a great way to <b>narrow<\/b> the generation gap.<\/p>","qs":[{"n":75,"stem":"According to paragraph 3, why do many parents want their children to become doctors, lawyers or engineers?","opts":["These jobs are creative.","These jobs are new.","These jobs are stable and well-paid.","These jobs are easy."],"a":2,"ex":"Đoạn 3: because these jobs are stable and well-paid.","note":""},{"n":76,"stem":"The word <b>passions<\/b> in paragraph 3 is CLOSEST in meaning to …………………….","opts":["strong interests","family rules","school subjects","bad habits"],"a":0,"ex":"passions = niềm đam mê → strong interests (sở thích mãnh liệt).","note":""},{"n":77,"stem":"The word <b>narrow<\/b> in paragraph 4 is OPPOSITE in meaning to …………………….","opts":["reduce","widen","bridge","close"],"a":1,"ex":"narrow the gap (thu hẹp khoảng cách) ≠ widen (mở rộng). reduce, bridge, close là đồng nghĩa.","note":""},{"n":78,"stem":"The word <b>They<\/b> in paragraph 2 refers to …………………….","opts":["teenagers","grandparents","smartphones","older family members"],"a":0,"ex":"Câu trước nói về \"Teenagers… use the Internet…\" → They = teenagers (họ cảm thấy người lớn tuổi không hiểu thế giới hiện đại).","note":""},{"n":79,"stem":"In which paragraph does the writer mention disagreements about jobs?","opts":["Paragraph 1","Paragraph 2","Paragraph 3","Paragraph 4"],"a":2,"ex":"Đoạn 3: Another issue is career choice…","note":""},{"n":80,"stem":"In which paragraph does the writer suggest ways to reduce family conflicts?","opts":["Paragraph 1","Paragraph 2","Paragraph 3","Paragraph 4"],"a":3,"ex":"Đoạn 4: To reduce conflicts, family members should listen to each other…","note":""},{"n":81,"stem":"Which of the following best paraphrases the sentence \"When children's dreams do not meet parental expectations, arguments are likely to happen.\"?","opts":["Children always argue with their parents about their dreams.","Parents never have any expectations of their children.","Children's dreams always meet their parents' expectations.","Arguments may happen if children's dreams are different from what their parents expect."],"a":3,"ex":"\"are likely to happen\" = may happen; \"do not meet parental expectations\" = khác với điều cha mẹ mong đợi → D. A dùng \"always\" quá tuyệt đối.","note":""},{"n":82,"stem":"In paragraph 1, the writer …………………….","opts":["introduces the topic of three-generation families","lists the disadvantages of technology","gives advice on choosing a career","describes a typical family meal"],"a":0,"ex":"Đoạn 1 giới thiệu chủ đề gia đình ba thế hệ sống chung và nêu lợi ích, mâu thuẫn → A.","note":""}]},{"name":"Passage 3","html":"<p>(1) Scientists have long been interested in why some people live much longer than others. Their research has led them to several areas of the world known as \"Blue Zones\", where an unusually large number of people live to the age of 100 or more. These places include Okinawa in Japan, Sardinia in Italy and Nicoya in Costa Rica.<\/p><p>(2) People in Blue Zones mainly eat plant-based diets. Their meals are rich in beans, whole grains, fresh vegetables and fruit, while meat is eaten only a few times a month. They also tend to stop eating when they are about 80 percent full, which helps them avoid overeating and <b>maintain<\/b> a healthy weight.<\/p><p>(3) Physical activity is a natural part of their daily lives. Instead of going to the gym, they walk to visit neighbours, work in their gardens and do housework by hand. This kind of regular, <b>moderate<\/b> movement keeps their muscles and hearts strong even in old age.<\/p><p>(4) Perhaps the most surprising finding is the importance of social connections. Elderly people in Blue Zones usually live close to their families and play an active role in their communities. <b>They<\/b> have a strong sense of purpose and meet friends regularly. Researchers believe that these close relationships reduce stress, which is a major cause of many chronic diseases.<\/p><p>(5) The lessons from Blue Zones are simple but powerful. We do not need expensive medicine or special equipment to live longer. By eating sensibly, staying active and keeping close ties with the people around us, we can all increase our chances of a long and healthy life.<\/p>","qs":[{"n":83,"stem":"According to paragraph 2, how often do people in Blue Zones eat meat?","opts":["every day","a few times a week","only a few times a month","never"],"a":2,"ex":"Đoạn 2: meat is eaten only a few times a month.","note":""},{"n":84,"stem":"The word <b>maintain<\/b> in paragraph 2 is CLOSEST in meaning to …………………….","opts":["lose","keep","gain","measure"],"a":1,"ex":"maintain a healthy weight = duy trì cân nặng khỏe mạnh → keep.","note":""},{"n":85,"stem":"The word <b>moderate<\/b> in paragraph 3 is OPPOSITE in meaning to …………………….","opts":["intense","gentle","regular","daily"],"a":0,"ex":"moderate (vừa phải) ≠ intense (cường độ cao, dữ dội). gentle gần nghĩa.","note":""},{"n":86,"stem":"The word <b>They<\/b> in paragraph 4 refers to …………………….","opts":["researchers","families","communities","elderly people in Blue Zones"],"a":3,"ex":"Câu trước: Elderly people in Blue Zones usually live close to their families… → They = elderly people in Blue Zones.","note":""},{"n":87,"stem":"In which paragraph does the writer mention how people in Blue Zones stay physically active?","opts":["Paragraph 2","Paragraph 3","Paragraph 4","Paragraph 5"],"a":1,"ex":"Đoạn 3: Physical activity is a natural part of their daily lives… walk, work in gardens, do housework.","note":""},{"n":88,"stem":"In which paragraph does the writer mention where Blue Zones are located?","opts":["Paragraph 1","Paragraph 2","Paragraph 4","Paragraph 5"],"a":0,"ex":"Đoạn 1: These places include Okinawa in Japan, Sardinia in Italy and Nicoya in Costa Rica.","note":""},{"n":89,"stem":"Which of the following best paraphrases the sentence \"Researchers believe that these close relationships reduce stress, which is a major cause of many chronic diseases.\"?","opts":["Close relationships cause stress and many chronic diseases.","Researchers have no idea why people get chronic diseases.","According to researchers, close relationships lower stress, a main cause of many long-term illnesses.","Stress helps people build close relationships."],"a":2,"ex":"reduce = lower; chronic diseases = long-term illnesses; major cause = main cause → C.","note":""},{"n":90,"stem":"In paragraph 5, the writer …………………….","opts":["describes the diets in Blue Zones","summarises the main lessons from Blue Zones","explains where Blue Zones are","introduces a new kind of medicine"],"a":1,"ex":"Đoạn 5 tóm tắt bài học: ăn uống hợp lý, năng động, gắn kết với mọi người → B.","note":""}]}]},{"id":"VIII","t":"Đọc hiểu: chèn câu, tóm tắt, tiêu đề","kind":"read","groups":[{"name":"Passage 4","html":"<p>Germs are everywhere: on door handles, mobile phones, money and even our own hands. Most of <b>them<\/b> are harmless, but some bacteria and viruses can cause illnesses such as flu, food poisoning and stomach infections.<\/p><p><span class=\"mk\">[I]<\/span> Luckily, one of the most effective ways to protect ourselves is also one of the simplest: washing our hands. According to health experts, proper hand-washing can reduce the risk of respiratory infections by around 20 percent. <span class=\"mk\">[II]<\/span> It is especially important to wash your hands before eating, after using the toilet and after coughing or sneezing. Using soap and clean water for at least 20 seconds is necessary, because soap helps remove germs that water alone cannot wash away.<\/p><p><span class=\"mk\">[III]<\/span> Despite this, many people still do not wash their hands properly. Some rinse them quickly with water only, while others forget to do it at all. Children in particular often need to be reminded. Schools can help by putting up posters, providing soap in every bathroom and teaching students the correct steps. <span class=\"mk\">[IV]<\/span><\/p><p>Hand sanitiser is a useful alternative when soap and water are not available. However, it does not work well when hands are very dirty or greasy. Doctors recommend choosing a sanitiser that contains at least 60 percent alcohol. By making hand-washing a daily habit, we can protect not only ourselves but also the people around us.<\/p>","qs":[{"n":91,"stem":"Which of the following is NOT mentioned as a place where germs can be found?","opts":["door handles","mobile phones","money","keyboards"],"a":3,"ex":"Đoạn 1 liệt kê: door handles, mobile phones, money, our own hands. Không có keyboards → D.","note":""},{"n":92,"stem":"The word <b>them<\/b> in paragraph 1 refers to …………………….","opts":["germs","door handles","mobile phones","illnesses"],"a":0,"ex":"\"Most of them are harmless, but some bacteria and viruses…\" → them = germs (vi trùng).","note":""},{"n":93,"stem":"Where in the passage does the following sentence best fit? \"As a result, simple actions like these can greatly reduce the spread of disease among students.\"","opts":["[I]","[II]","[III]","[IV]"],"a":3,"ex":"\"simple actions like these\" chỉ các việc nhà trường làm (dán poster, cung cấp xà phòng, dạy các bước) ngay trước vị trí [IV]; \"As a result\" nêu kết quả → D.","note":""},{"n":94,"stem":"Which of the following best summarises paragraph 2?","opts":["Germs can be found everywhere around us.","Washing hands at the right times and in the right way greatly reduces infections.","Many people forget to wash their hands.","Hand sanitiser is better than soap and water."],"a":1,"ex":"Đoạn 2: rửa tay giảm 20% nguy cơ nhiễm trùng, cần rửa đúng lúc (trước khi ăn…) và đúng cách (xà phòng, 20 giây) → B.","note":""},{"n":95,"stem":"Which of the following is the best title for the passage?","opts":["The Dangers of Hand Sanitiser","How Viruses Are Made","Clean Hands, Healthy Lives","Food Poisoning in Schools"],"a":2,"ex":"Cả bài nói về tầm quan trọng của việc rửa tay để bảo vệ sức khỏe → Clean Hands, Healthy Lives.","note":""}]},{"name":"Passage 5","html":"<p>Every parent wants the best for their children, but not all parents raise their children in the same way. Psychologists usually describe several parenting styles, the most common of which are authoritarian and authoritative parenting.<\/p><p>Authoritarian parents are very strict. They set many rules and expect their children to obey without asking questions. <span class=\"mk\">[I]<\/span> Children who grow up in such families are often well-behaved, but they may also have low self-confidence and find it hard to make decisions on their own. <span class=\"mk\">[II]<\/span><\/p><p>Authoritative parents, on the other hand, combine clear rules with warmth and support. <b>They<\/b> explain the reasons behind their rules and listen to their children's opinions. <span class=\"mk\">[III]<\/span> As a result, their children tend to be independent, confident and successful at school. Many experts consider this the most effective parenting style.<\/p><p>In Viet Nam, many parents traditionally followed a strict style, believing that discipline was the key to success. However, attitudes are changing. Today, more and more young parents are trying to build friendly relationships with their children. <span class=\"mk\">[IV]<\/span> They still have rules, but they also encourage their children to share their feelings and make their own choices. This change is helping to narrow the gap between generations and create happier families.<\/p>","qs":[{"n":96,"stem":"Which of the following is NOT mentioned as a characteristic of children with authoritative parents?","opts":["independent","confident","successful at school","shy"],"a":3,"ex":"Đoạn 3: their children tend to be independent, confident and successful at school. Không có \"shy\" → D.","note":""},{"n":97,"stem":"The word <b>They<\/b> in paragraph 3 refers to …………………….","opts":["authoritarian parents","authoritative parents","children","experts"],"a":1,"ex":"Câu trước: Authoritative parents… combine clear rules with warmth → They = authoritative parents.","note":""},{"n":98,"stem":"Where in the passage does the following sentence best fit? \"Breaking the rules usually leads to punishment rather than discussion.\"","opts":["[I]","[II]","[III]","[IV]"],"a":0,"ex":"Câu này mô tả tiếp kiểu cha mẹ độc đoán: đặt nhiều luật, buộc con vâng lời không hỏi lại → vi phạm thì bị phạt chứ không thảo luận. Vị trí [I] ngay sau câu đó.","note":""},{"n":99,"stem":"Which of the following best summarises paragraph 4?","opts":["Vietnamese parents never set rules for their children.","Discipline is the only key to success.","Vietnamese parenting is shifting from strict control to friendlier relationships.","Young parents do not care about their children's feelings."],"a":2,"ex":"Đoạn 4: trước đây nghiêm khắc, nay cha mẹ trẻ xây dựng quan hệ thân thiện hơn → C.","note":""},{"n":100,"stem":"Which of the following is the best title for the passage?","opts":["Why Children Break Rules","Parenting Styles and Their Effects","The History of Vietnamese Families","How to Become a Psychologist"],"a":1,"ex":"Bài nói về các kiểu nuôi dạy con và ảnh hưởng của chúng đến trẻ → B.","note":""}]},{"name":"Passage 6","html":"<p>In recent decades, fast food has become a part of daily life for many young people. Burgers, fried chicken and soft drinks are cheap, tasty and easy to find. <span class=\"mk\">[I]<\/span> However, eating too much of this kind of food can seriously harm our health.<\/p><p>Fast food is usually high in fat, salt and sugar but low in vitamins and fibre. <span class=\"mk\">[II]<\/span> When people eat it regularly, they are more likely to become overweight. Being overweight increases the risk of chronic diseases such as type 2 diabetes, high blood pressure and heart disease. <b>These conditions<\/b>, which used to affect mainly older adults, are now appearing in teenagers too.<\/p><p>There are several reasons why young people choose fast food. Many have busy schedules and little time to cook. Others are influenced by advertisements on television and social media. <span class=\"mk\">[III]<\/span> In addition, eating at fast food restaurants is often seen as a fun social activity with friends.<\/p><p>Reducing fast food does not mean giving it up completely. Experts suggest treating it as an occasional snack rather than a regular meal. <span class=\"mk\">[IV]<\/span> Preparing simple meals at home, carrying healthy snacks like fruit and nuts, and drinking water instead of soft drinks are easy ways to start. Small, consistent changes can lead to a healthier and longer life.<\/p>","qs":[{"n":101,"stem":"Which of the following is NOT mentioned as a reason why young people choose fast food?","opts":["busy schedules","advertisements","eating out with friends","advice from doctors"],"a":3,"ex":"Đoạn 3 nêu: lịch bận rộn, quảng cáo, ăn cùng bạn bè. Không có \"lời khuyên của bác sĩ\" → D.","note":""},{"n":102,"stem":"The phrase <b>These conditions<\/b> in paragraph 2 refers to …………………….","opts":["vitamins and fibre","chronic diseases such as diabetes, high blood pressure and heart disease","fast food restaurants","teenagers"],"a":1,"ex":"\"These conditions, which used to affect mainly older adults…\" thay cho các bệnh mãn tính vừa liệt kê ở câu trước → B.","note":""},{"n":103,"stem":"Where in the passage does the following sentence best fit? \"Colourful adverts often show famous people enjoying burgers and soft drinks.\"","opts":["[I]","[II]","[III]","[IV]"],"a":2,"ex":"Câu này giải thích thêm cho \"Others are influenced by advertisements…\" nên đặt ngay sau đó, tại [III].","note":""},{"n":104,"stem":"Which of the following best summarises paragraph 2?","opts":["Fast food's poor nutrition can lead to weight gain and serious diseases, even in teenagers.","Teenagers like fast food because it is cheap.","Burgers contain a lot of vitamins.","Older adults eat more fast food than teenagers."],"a":0,"ex":"Đoạn 2: thức ăn nhanh nhiều chất béo, muối, đường → thừa cân → bệnh mãn tính, nay xuất hiện cả ở thanh thiếu niên → A.","note":""},{"n":105,"stem":"Which of the following is the best title for the passage?","opts":["How to Open a Fast Food Restaurant","The History of Burgers","Why Teenagers Love Sports","Fast Food: Tasty but Risky"],"a":3,"ex":"Bài nói về sự hấp dẫn của thức ăn nhanh và tác hại đối với sức khỏe → Fast Food: Tasty but Risky.","note":""}]}]}];
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const rnd = n => Math.floor(Math.random() * n);
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = rnd(i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const LET = ['A', 'B', 'C', 'D'];
+const fmt = s => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+
+/* flatten */
+const ALL = [];
+DATA.forEach((s, si) => s.groups.forEach((g, gi) => g.qs.forEach((q, qi) => ALL.push({ si, gi, qi, n: q.n }))));
+const byN = n => ALL.find(x => x.n === n);
+
+/* ---------- storage ---------- */
+const KEY = 'midterm-run-g11-u12';
+let store = { best: {}, wrong: [] };
+try { store = Object.assign(store, JSON.parse(localStorage.getItem(KEY) || '{}')); } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} };
+
+/* ---------- British voice ---------- */
+let voiceOn = true, uk = null;
+function pickVoice() {
+  if (!('speechSynthesis' in window)) return null;
+  const gb = speechSynthesis.getVoices().filter(v => /en[-_]GB/i.test(v.lang));
+  for (const p of [/Sonia/i, /Libby/i, /Maisie/i, /Ryan/i, /Google UK English Female/i, /Google UK English Male/i, /Serena/i, /Kate/i, /Martha/i, /Daniel/i, /Arthur/i]) {
+    const v = gb.find(v => p.test(v.name)); if (v) return v;
+  }
+  return gb.find(v => /natural|online|premium|enhanced/i.test(v.name)) || gb[0] || null;
+}
+if ('speechSynthesis' in window) { uk = pickVoice(); speechSynthesis.onvoiceschanged = () => { uk = pickVoice(); }; }
+function speak(t) {
+  if (!voiceOn || !('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(t); u.lang = 'en-GB'; if (uk) u.voice = uk; u.rate = 0.9;
+  speechSynthesis.speak(u);
+}
+
+/* ---------- home ---------- */
+function show(id) { ['home', 'play', 'result'].forEach(x => $('#' + x).hidden = x !== id); window.scrollTo(0, 0); }
+function renderHome() {
+  $('#secs').innerHTML = DATA.map((s, si) => {
+    const ns = s.groups.flatMap(g => g.qs.map(q => q.n));
+    const b = store.best[s.id];
+    return `<li><button class="srow" data-si="${si}">
+      <span class="rn">${s.id}</span>
+      <span><span class="st">${s.t}</span><span class="sm">Câu ${ns[0]}–${ns[ns.length - 1]}, ${ns.length} câu</span></span>
+      <span class="best">${b != null ? `Tốt nhất <b>${b}/${ns.length}</b>` : 'Chưa làm'}</span>
+    </button></li>`;
+  }).join('');
+  document.querySelectorAll('.srow').forEach(b => b.onclick = () => startSection(+b.dataset.si));
+  const w = store.wrong.length;
+  $('#reviewInfo').textContent = w ? `${w} câu đang chờ bạn làm lại` : 'Chưa có câu sai nào';
+  $('#reviewBtn').disabled = !w;
+  show('home');
+}
+
+/* ---------- session ---------- */
+const S = { mode: '', label: '', list: [], i: 0, right: 0, score: 0, streak: 0, answered: false, res: [], t0: 0, timer: null, ctxKey: '', secId: null };
+
+function begin(mode, list, label, secId) {
+  Object.assign(S, { mode, list, label, secId, i: 0, right: 0, score: 0, streak: 0, res: [], ctxKey: '', t0: Date.now() });
+  clearInterval(S.timer);
+  S.timer = setInterval(() => { $('#timer').textContent = fmt(Math.floor((Date.now() - S.t0) / 1000)); }, 1000);
+  $('#timer').textContent = '0:00';
+  $('#score').textContent = '0';
+  $('#ticks').innerHTML = list.map(() => '<span class="tick"></span>').join('');
+  show('play');
+  renderQ();
+}
+function startSection(si) { begin('section', ALL.filter(x => x.si === si), `Phần ${DATA[si].id}`, DATA[si].id); }
+function startChallenge() { begin('challenge', shuffle(ALL).slice(0, 20).sort((a, b) => a.n - b.n), 'Chạy nước rút 20 câu'); }
+function startReview() { begin('review', store.wrong.map(byN).filter(Boolean).sort((a, b) => a.n - b.n), 'Ôn lại câu sai'); }
+
+/* ---------- render question ---------- */
+function ctxHTML(it) {
+  const s = DATA[it.si], g = s.groups[it.gi], q = g.qs[it.qi];
+  if (q.items) {
+    const label = s.id === 'III' ? 'Hội thoại' : s.id === 'IV' ? 'Thư / email' : 'Các câu cần sắp xếp';
+    return `<p class="ctx-label">${label}</p>${q.head ? `<p class="letter">${q.head}</p>` : ''}
+      <ul class="items">${q.items.map(([k, v]) => `<li><span class="k">${k}.</span><span>${v}</span></li>`).join('')}</ul>
+      ${q.foot ? `<p class="letter">${q.foot}</p>` : ''}`;
+  }
+  if (g.html) return `<p class="ctx-label">${g.name || ''}</p><div class="passage">${g.html}</div>`;
+  return '';
+}
+function renderQ() {
+  const it = S.list[S.i], s = DATA[it.si], g = s.groups[it.gi], q = g.qs[it.qi];
+  S.answered = false;
+  $('#pos').textContent = `${S.i + 1}/${S.list.length}`;
+  moveRunner();
+
+  // context
+  const key = q.items ? 'q' + q.n : `g${it.si}-${it.gi}`;
+  if (key !== S.ctxKey) {
+    const h = ctxHTML(it);
+    $('#ctx').innerHTML = h; $('#ctx').hidden = !h;
+    $('#stage').classList.toggle('solo', !h);
+    $('#ctx').scrollTop = 0;
+    S.ctxKey = key;
+  }
+  document.querySelectorAll('#ctx .gap').forEach(e => e.classList.toggle('now', +e.dataset.n === q.n));
+  const cur = document.querySelector(`#ctx .gap[data-n="${q.n}"]`);
+  if (cur) {
+    const box = $('#ctx');
+    box.scrollTop = Math.max(0, cur.offsetTop - box.offsetTop - box.clientHeight / 3);
+  }
+
+  // stem
+  let stem = q.stem;
+  if (!stem) stem = s.kind === 'gap' ? `Chọn đáp án đúng cho chỗ trống <b>(${q.n})</b>.` : 'Chọn cách sắp xếp đúng nhất.';
+  $('#qpanel').innerHTML = `
+    <p class="qnum">${S.label}, câu ${q.n}${S.mode !== 'section' ? ` (Phần ${s.id})` : ''}</p>
+    <p class="stem">${stem}</p>
+    <div class="opts">${q.opts.map((o, k) => `<button class="opt" data-k="${k}"><span class="L">${LET[k]}</span><span>${o}</span></button>`).join('')}</div>
+    <p class="kbd">Phím tắt: A B C D hoặc 1 2 3 4</p>
+    <div class="fb" id="fb" hidden aria-live="polite"></div>`;
+  document.querySelectorAll('.opt').forEach(b => b.onclick = () => answer(+b.dataset.k));
+}
+function moveRunner() {
+  const n = S.list.length, done = S.res.length;
+  $('#runner').style.left = `calc(${(done / n) * 100}% + ${done === 0 ? 18 : 0}px)`;
+  document.querySelectorAll('#ticks .tick').forEach((t, k) => { t.className = 'tick' + (k < done ? (S.res[k] ? ' ok' : ' no') : ''); });
+}
+
+/* ---------- answer ---------- */
+function correctSpeech(q) {
+  if (q.items) {
+    const order = q.opts[q.a].split(/\s*–\s*/);
+    return order.map(k => (q.items.find(x => x[0] === k.trim()) || [, ''])[1]).join(' ');
+  }
+  return q.opts[q.a];
+}
+function answer(k) {
+  if (S.answered) return;
+  S.answered = true;
+  const it = S.list[S.i], s = DATA[it.si], q = s.groups[it.gi].qs[it.qi];
+  const ok = k === q.a;
+  document.querySelectorAll('.opt').forEach((b, j) => {
+    b.disabled = true;
+    if (j === q.a) b.classList.add('right'); else if (j === k) b.classList.add('wrong'); else b.classList.add('dim');
+  });
+  const gapEl = document.querySelector(`#ctx .gap[data-n="${q.n}"]`);
+  if (gapEl) { gapEl.textContent = `(${q.n}) ${gapEl.dataset.a}`; gapEl.classList.remove('now'); gapEl.classList.add(ok ? 'done' : 'miss'); }
+
+  S.res.push(ok);
+  let bonus = '';
+  if (ok) {
+    S.right++; S.streak++;
+    let p = 10; if (S.streak >= 3) { p += 5; bonus = `<span class="streak">Chuỗi ${S.streak} 🔥 +5</span>`; }
+    S.score += p; $('#score').textContent = S.score;
+    store.wrong = store.wrong.filter(n => n !== q.n);
+  } else {
+    S.streak = 0;
+    if (!store.wrong.includes(q.n)) store.wrong.push(q.n);
+  }
+  save();
+  moveRunner();
+  const last = S.i === S.list.length - 1;
+  const fb = $('#fb');
+  fb.innerHTML = `
+    <p class="verdict ${ok ? 'ok' : 'no'}">${ok ? '✔ Chính xác! +10' : `✘ Chưa đúng. Đáp án: ${LET[q.a]}`}${bonus}</p>
+    <p class="ex">${q.ex}</p>
+    ${q.note ? `<p class="note">⚠ ${q.note}</p>` : ''}
+    <div class="row">
+      <button class="primary" id="nextBtn">${last ? 'Về đích, xem kết quả' : 'Câu tiếp theo'}</button>
+      <button class="say" id="sayBtn">🔊 Nghe đáp án</button>
+    </div>`;
+  fb.hidden = false;
+  $('#nextBtn').onclick = next;
+  $('#sayBtn').onclick = () => speak(correctSpeech(q));
+  $('#nextBtn').focus({ preventScroll: true });
+  fb.scrollIntoView({ block: 'nearest', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+}
+function next() { if (S.i < S.list.length - 1) { S.i++; renderQ(); } else finish(); }
+
+/* ---------- result ---------- */
+function finish() {
+  clearInterval(S.timer);
+  const n = S.list.length, secs = Math.floor((Date.now() - S.t0) / 1000);
+  if (S.mode === 'section') { const b = store.best[S.secId]; if (b == null || S.right > b) store.best[S.secId] = S.right; save(); }
+  const wrong = S.list.filter((_, k) => !S.res[k]).map(x => x.n);
+  const pct = S.right / n;
+  const title = pct === 1 ? 'Về đích hoàn hảo!' : pct >= .8 ? 'Về đích rất tốt!' : pct >= .5 ? 'Đã về đích!' : 'Về đích rồi, tập thêm nhé!';
+  $('#resultBox').innerHTML = `
+    <p class="kicker">${S.label}</p>
+    <h2>${title}</h2>
+    <div class="big">${S.right}/${n}</div>
+    <p>${S.score} điểm, thời gian ${fmt(secs)}</p>
+    ${wrong.length ? `<p>Các câu cần xem lại (đã thêm vào mục Ôn lại câu sai):</p><div class="chips">${wrong.map(w => `<span class="chip">Câu ${w}</span>`).join('')}</div>` : '<p>Không sai câu nào. Tuyệt vời!</p>'}
+    <div class="row">
+      <button class="ghost" id="againBtn">Làm lại</button>
+      ${wrong.length ? '<button class="ghost" id="fixBtn">Làm lại câu sai</button>' : ''}
+      <button class="primary" id="homeBtn">Về trang chính</button>
+    </div>`;
+  const list = S.list.slice(), mode = S.mode, label = S.label, secId = S.secId;
+  $('#againBtn').onclick = () => mode === 'challenge' ? startChallenge() : begin(mode, list, label, secId);
+  if (wrong.length) $('#fixBtn').onclick = () => begin('review', wrong.map(byN), 'Làm lại câu sai');
+  $('#homeBtn').onclick = renderHome;
+  show('result');
+}
+
+/* ---------- controls ---------- */
+$('#challengeBtn').onclick = startChallenge;
+$('#reviewBtn').onclick = startReview;
+$('#quitBtn').onclick = () => { clearInterval(S.timer); if ('speechSynthesis' in window) speechSynthesis.cancel(); renderHome(); };
+$('#voiceBtn').onclick = e => {
+  voiceOn = !voiceOn;
+  e.currentTarget.setAttribute('aria-pressed', voiceOn);
+  e.currentTarget.textContent = voiceOn ? '🔊 Giọng đọc: Bật' : '🔇 Giọng đọc: Tắt';
+  if (!voiceOn && 'speechSynthesis' in window) speechSynthesis.cancel();
+};
+$('#resetBtn').onclick = () => { if (confirm('Xoá điểm tốt nhất và danh sách câu sai đã lưu trên máy này?')) { store = { best: {}, wrong: [] }; save(); renderHome(); } };
+document.addEventListener('keydown', e => {
+  if ($('#play').hidden || e.ctrlKey || e.metaKey || e.altKey) return;
+  const map = { a: 0, b: 1, c: 2, d: 3, '1': 0, '2': 1, '3': 2, '4': 3 };
+  const k = map[e.key.toLowerCase()];
+  if (!S.answered && k != null) answer(k);
+  else if (S.answered && e.key === 'Enter' && document.activeElement?.id !== 'nextBtn') next();
+});
+renderHome();
+</script>
+</body>
+</html>
